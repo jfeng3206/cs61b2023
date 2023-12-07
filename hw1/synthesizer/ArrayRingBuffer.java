@@ -1,12 +1,9 @@
-// TODO: Make sure to make this class a part of the synthesizer package
 package synthesizer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-//TODO: Make sure to make this class and all of its methods public
-//TODO: Make sure to make this class extend synthesizer.AbstractBoundedQueue<t>
 public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
@@ -19,11 +16,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Create a new ArrayRingBuffer with the given capacity.
      */
     public ArrayRingBuffer(int capacity) {
-        // TODO: Create new array with capacity elements.
-        //       first, last, and fillCount should all be set to 0.
-        //       this.capacity should be set appropriately. Note that the local variable
-        //       here shadows the field we inherit from synthesizer.AbstractBoundedQueue, so
-        //       you'll need to use this.capacity to set the capacity.
         rb = (T[]) new Object [capacity];
         this.capacity = capacity;
         this.fillCount=0;
@@ -38,12 +30,11 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     @Override
     public void enqueue(T x) {
-        // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
-        if(isFull()){
+        if (isFull()) {
             throw new RuntimeException("Ringbuffer is full!");
         }
         else {
-            rb[this.last]=x;
+            rb[this.last] = x;
             this.fillCount++;
             this.last = (this.last+1)%this.capacity;
         }
@@ -57,13 +48,12 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     @Override
     public T dequeue() {
         T x;
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new RuntimeException("Ringbuffer is empty!");
         }
-        else{
+        else {
             x = rb[this.first];
-            rb[this.first]=null;
+            rb[this.first] = null;
             this.fillCount--;
             this.first = (this.first+1)%this.capacity;
         }
@@ -77,7 +67,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     public T peek() {
         // TODO: Return the first item. None of your instance variables should change.
         T x;
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new RuntimeException("Ringbuffer is empty!");
         } else{
             x = rb[this.first];
@@ -95,24 +85,24 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     };
 
 
-    private class keyIterator implements Iterator<T>{
+    private class keyIterator implements Iterator<T> {
         int ptr = -1;
         List<T> l = new ArrayList<T>();
 
         private keyIterator() {
             ptr = 0;
-            while(!isEmpty()){
+            while (!isEmpty()) {
                 l.add(dequeue());
             }
-            for(int i = 0;i<capacity;i++){
+            for (int i = 0;i<capacity;i++) {
                 enqueue(l.get(i));
             }
-            if(!isEmpty()){
+            if (!isEmpty()) {
                 ptr=0;
             }
         }
         public boolean hasNext() {
-            if(ptr==-1||ptr==capacity){
+            if (ptr==-1||ptr==capacity) {
                 return false;
             }
             return true;
@@ -122,7 +112,5 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
             ptr++;
             return temp;
         }
-
     }
-
 }

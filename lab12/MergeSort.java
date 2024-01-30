@@ -72,9 +72,9 @@ public class MergeSort {
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
-        if(items.isEmpty()){
-            throw new NullPointerException();
-        }
+//        if(items.isEmpty()){
+//            throw new NullPointerException();
+//        }
         if(items.size()<=1){
             return items;
         }
@@ -93,12 +93,12 @@ public class MergeSort {
     @Test
     public static void main(String[] args) {
         Queue<String> students = new Queue<String>();
-        students.enqueue("Alice");
-        students.enqueue("Vanessa");
-        students.enqueue("Ethan");
-        students.enqueue("C");
-        students.enqueue("d");
-        students.enqueue("F");
+//        students.enqueue("Alice");
+//        students.enqueue("Vanessa");
+//        students.enqueue("Ethan");
+//        students.enqueue("C");
+//        students.enqueue("d");
+//        students.enqueue("F");
 //        Queue<Queue<String>> check = makeSingleItemQueues(students);
 //        Queue<String> i1 = check.dequeue();
 //        System.out.println(i1);

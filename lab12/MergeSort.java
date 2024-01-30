@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.Queue;
+import org.junit.Test;
 
 public class MergeSort {
     /**
@@ -35,7 +36,14 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         // Your code here!
-        return null;
+        Queue<Queue<Item>> res = new Queue<>();
+        while(!items.isEmpty()){
+            Item t = items.dequeue();
+            Queue<Item> q = new Queue<>();
+            q.enqueue(t);
+            res.enqueue(q);
+        }
+        return res;
     }
 
     /**
@@ -54,13 +62,49 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> mergedQ = new Queue<>();
+        while(!q1.isEmpty() || !q2.isEmpty()){
+            mergedQ.enqueue(getMin(q1,q2));
+        }
+        return mergedQ;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        if(items.isEmpty()){
+            throw new NullPointerException();
+        }
+        if(items.size()<=1){
+            return items;
+        }
+        Queue<Queue<Item>> singleItemQ = makeSingleItemQueues(items);
+        Queue<Item> q1;
+        Queue<Item> q2;
+
+        while(singleItemQ.size()>1){
+            q1 = singleItemQ.dequeue();
+            q2 = singleItemQ.dequeue();
+            singleItemQ.enqueue(mergeSortedQueues(q1,q2));
+        }
+        return singleItemQ.peek();
+    }
+
+    @Test
+    public static void main(String[] args) {
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+        students.enqueue("C");
+        students.enqueue("d");
+        students.enqueue("F");
+//        Queue<Queue<String>> check = makeSingleItemQueues(students);
+//        Queue<String> i1 = check.dequeue();
+//        System.out.println(i1);
+//        Queue<String> i2 = check.dequeue();
+//        System.out.println(i2);
+        Queue<String> sort = mergeSort(students);
+        System.out.println(sort);
     }
 }
